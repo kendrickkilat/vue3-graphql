@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    h1 {
+        @apply text-4xl font-semibold;
+    }
+    button {
+        @apply bg-green-500 hover:bg-green-400 text-white px-5 w-full h-full font-semibold
+    }
+}
