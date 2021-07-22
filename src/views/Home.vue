@@ -1,18 +1,37 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js + TypeScript App"/>
+    <h1>Search <span class="text-green-500">GitHub</span> Users</h1>
+    <SearchBar @search="search"/>
+    <UserList :search-options="searchOptions" />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
-import HelloWorld from '@/components/HelloWorld.vue'; // @ is an alias to /src
+import { defineComponent, reactive } from 'vue';
+import SearchBar from '@/components/search-bar.vue';
+import UserList from '@/components/user-list.vue';
 
 export default defineComponent({
   name: 'Home',
   components: {
-    HelloWorld,
+    SearchBar,
+    UserList,
+  },
+  setup() {
+    const searchOptions = reactive({
+      query: '',
+      limit: 10,
+    });
+
+    const search = (query: string) => {
+      console.log(query);
+      searchOptions.query = query;
+    };
+
+    return {
+      searchOptions,
+      search,
+    };
   },
 });
 </script>
