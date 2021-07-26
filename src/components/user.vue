@@ -28,10 +28,6 @@ export default defineComponent({
       type: Object as PropType<User>,
       required: true,
     },
-    searchOptions: {
-      type: Object,
-      required: true,
-    },
   },
   setup(prop) {
     function toUserDetails() {
