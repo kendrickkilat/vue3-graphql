@@ -10,6 +10,7 @@
 import { defineComponent, reactive } from 'vue';
 import SearchBar from '@/components/search-bar.vue';
 import UserList from '@/components/user-list.vue';
+import { SearchOptions } from '@/interfaces/search-options';
 
 export default defineComponent({
   name: 'Home',
@@ -18,7 +19,7 @@ export default defineComponent({
     UserList,
   },
   setup() {
-    const searchOptions = reactive({
+    const searchOptions: SearchOptions = reactive({
       query: '',
       limit: 10,
     });

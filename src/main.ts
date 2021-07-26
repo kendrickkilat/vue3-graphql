@@ -19,8 +19,6 @@ const additiveLink = from([
       },
     }));
     return forward(operation);
-    // Go to the next link in the chain. Similar to `next` in Express.js
-    // middleware.
   }),
   new HttpLink({ uri: 'https://api.github.com/graphql' }),
 ]);

@@ -1,6 +1,5 @@
 <template>
-<a :href="user.url" target="_blank">
-  <div class = "flex" >
+  <div class = "flex cursor-pointer" @click="toUserDetails()">
     <!-- {{userNode.login}} - {{userNode.url}} - {{userNode.avatarUrl}} -->
     <div class="p-5 w-full bg-white m-5 shadow-md flex flex-row">
       <div class="flex-3">
@@ -14,12 +13,13 @@
       </div>
     </div>
   </div>
-</a>
 </template>
 
 <script lang="ts">
-import { User } from '@/interfaces/user';
+import router from '@/router';
 import { defineComponent, PropType } from 'vue';
+import rn from '@/enums/route-names';
+import { User } from '@/generated/graphql';
 
 export default defineComponent({
   name: 'Repository',
@@ -32,6 +32,15 @@ export default defineComponent({
       type: Object,
       required: true,
     },
+  },
+  setup(prop) {
+    function toUserDetails() {
+      router.push({ name: rn.UserDetails, params: { id: prop.user.login } });
+    }
+
+    return {
+      toUserDetails,
+    };
   },
 });
 </script>

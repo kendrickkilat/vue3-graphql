@@ -11,19 +11,22 @@
     </div>
 </template>
 <script lang ="ts">
-import { defineComponent, toRefs, watchEffect } from 'vue';
+import { defineComponent, PropType, toRefs } from 'vue';
 import { useQuery, useResult } from '@vue/apollo-composable';
-import SEARCH_USER from '@/graphql/documents';
+import { SEARCH_USERS } from '@/graphql/queries';
+// import useQueries from '@/composables/use-queries';
 import User from '@/components/user.vue';
+import { SearchOptions } from '@/interfaces/search-options';
 
 export default defineComponent({
-  name: 'RepositoryList',
+  name: 'UserList',
   components: {
     User,
   },
   props: {
     searchOptions: {
-      type: Object,
+      type: Object as PropType<SearchOptions>,
+      required: false,
       default() {
         return {
           query: '',
@@ -32,19 +35,16 @@ export default defineComponent({
       },
     },
   },
-  setup(props: { searchOptions: Record<string, number> }) {
+  setup(props: {searchOptions: SearchOptions}) {
     const { searchOptions } = toRefs(props);
-    const { result, loading, error } = useQuery(SEARCH_USER, searchOptions);
+    // const { SEARCH_USERS } = useQueries();
+    const { result, loading, error } = useQuery(SEARCH_USERS, searchOptions);
 
     const users = useResult(
       result,
       [],
-      (data) => data?.search && data.search.edges, // specify on what data to return
+      (data) => data.search && data.search.edges, // specify on what data to return
     );
-    watchEffect(() => {
-      console.log(searchOptions.value);
-      console.log(users.value);
-    });
 
     return {
       loading,
