@@ -10,7 +10,7 @@
             <span>Name: </span><span>{{userDetails.name ? userDetails.name : 'N/A'}}</span>
             <span>Github Link: </span><a class="text-green-400" target="_blank" :href="userDetails.url">{{userDetails.url ? userDetails.url : 'N/A'}}</a>
         </div>
-        <RepositoryList :repositories="userDetails.repositories.nodes"/>
+        <RepositoryList :repositories="userDetails.repositories.edges"/>
     </div>
     <div v-else-if="!result">
       User Data Not Found

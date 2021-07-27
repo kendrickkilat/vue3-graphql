@@ -10,12 +10,15 @@ const USER_FRAGMENT = gql`
         name
         repositories(first: 10) {
         totalCount
-        nodes {
+        edges {
+          node {
             id
             name
             url
           }
         }
+        }
+        
     }
 `;
 
@@ -24,7 +27,9 @@ const SEARCH_USERS = gql`
 
   query SearchUsersQuery($query: String!, $limit: Int!) {
     search(query: $query, type: USER, first: $limit) {
+      userCount
       edges {
+        cursor
         node {
           ...user
         }
