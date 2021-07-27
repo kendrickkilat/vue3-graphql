@@ -23,7 +23,7 @@ module.exports = {
     'vue/max-len': [
       'error',
       {
-        code: 120,
+        code: 200,
         template: 9000,
         ignoreTemplateLiterals: true,
         ignoreUrls: true,

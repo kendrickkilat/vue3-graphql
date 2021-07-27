@@ -2,7 +2,7 @@
     <div v-if="loading">...Loading</div>
     <div v-else-if="error">ERROR: {{error}}</div>
     <div v-else-if="users.length">
-        <ul>
+        <ul class = "">
             <li v-for="user in users" v-bind:key="user.node.id">
                 <User v-if="user.node.id !== undefined"
                 :user="user.node" :search-options="searchOptions"/>

@@ -6,10 +6,12 @@
         <img :src="user.avatarUrl ? user.avatarUrl : '@/assets/logo.png'"
         class="mx-2 rounded-full" height=100 width=100>
       </div>
-      <div class="flex-1 flex-col justify-items-end">
-        <h2 class="text-lg">{{user.name ? user.name : 'Github User'}}</h2>
-        <h2 class="text-md text-gray">{{user.login}}</h2>
-        <a :href="user.url" class="text-green-500">{{user.url}}</a>
+      <div class="flex-1 flex flex-col mx-5">
+        <h2 class="text-lg place-self-start">{{user.name ? user.name : 'Github User'}}</h2>
+        <h2 class="text-md text-gray place-self-start">{{user.login}}</h2>
+        <h2 class="text-md text-gray place-self-start">{{user.email ? user.email : 'no-email-provided'}}</h2>
+        <h2 class="text-md text-gray place-self-start">No. of Repositories: {{user.repositories.totalCount}}</h2>
+        <a :href="user.url" class="text-green-500 place-self-start">{{user.url}}</a>
       </div>
     </div>
   </div>

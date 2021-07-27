@@ -9,6 +9,7 @@ const USER_FRAGMENT = gql`
         url
         name
         repositories(first: 10) {
+        totalCount
         nodes {
             id
             name
@@ -32,8 +33,6 @@ const SEARCH_USERS = gql`
   }
 `;
 
-// export default SEARCH_USERS;
-
 const SEARCH_USER = gql`
   ${USER_FRAGMENT}
 
@@ -48,5 +47,3 @@ export {
   SEARCH_USERS,
   SEARCH_USER,
 };
-
-// export default SEARCH_USER;

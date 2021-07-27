@@ -1,8 +1,8 @@
 <template>
     <div v-if="loading">...Loading</div>
-    <div v-if="error">{{ error.message }}</div>
-    <div v-if="result" class="flex flex-col m-5">
-        <div @click="toHome" class="text-blue-500 cursor-pointer font-semibold text-3xl place-self-start">Home</div>
+    <div v-else-if="error">{{ error.message }}</div>
+    <div v-else-if="result" class="flex flex-col m-5">
+        <div @click="toHome" class="text-green-300 underline cursor-pointer font-semibold text-xl place-self-start">Home</div>
         <h2 class="text-green-400 text-5xl font-semibold place-self-start">{{userDetails.login.toUpperCase()}}</h2>
         <div class="grid grid-cols-2 justify-items-start bg-white shadow-md p-5 my-5">
             <span>Username: </span><span class="text-green-400 font-semibold">{{ userDetails.login }}</span>
@@ -11,6 +11,9 @@
             <span>Github Link: </span><a class="text-green-400" target="_blank" :href="userDetails.url">{{userDetails.url ? userDetails.url : 'N/A'}}</a>
         </div>
         <RepositoryList :repositories="userDetails.repositories.nodes"/>
+    </div>
+    <div v-else-if="!result">
+      User Data Not Found
     </div>
 </template>
 

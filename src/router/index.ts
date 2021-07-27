@@ -13,6 +13,11 @@ const routes: Array<RouteRecordRaw> = [
     name: RouteNames.UserDetails,
     component: () => import('../views/user-details.vue'),
   },
+  {
+    path: '/:catchAll(.*)',
+    name: RouteNames.Error,
+    component: () => import('../views/404.vue'),
+  },
 ];
 
 const router = createRouter({

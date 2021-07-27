@@ -25,7 +25,6 @@ export default defineComponent({
     });
 
     const search = (query: string) => {
-      console.log(query);
       searchOptions.query = query;
     };
 
