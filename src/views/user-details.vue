@@ -11,6 +11,10 @@
             <span>Github Link: </span><a class="text-green-400" target="_blank" :href="userDetails.url">{{userDetails.url ? userDetails.url : 'N/A'}}</a>
         </div>
         <RepositoryList :repositories="userDetails.repositories.edges"/>
+        <div class="flex mx-5 mb-3">
+          <button class="flex-1 mr-1 p-2" @click="prevPage()">Previous</button>
+          <button class="flex-1 ml-1 p-2" @click="nextPage()">Next</button>
+        </div>
     </div>
     <div v-else-if="!result">
       User Data Not Found
@@ -41,8 +45,12 @@ export default defineComponent({
     // const { SEARCH_USER } = useQueries();
     const variables = ref({
       login: props.id,
+      after: null,
+      before: null,
     });
-    const { result, loading, error } = useQuery(SEARCH_USER, variables.value);
+    const {
+      result, loading, error, fetchMore,
+    } = useQuery(SEARCH_USER, variables.value);
     const userDetails = useResult(
       result,
       [],
@@ -51,12 +59,79 @@ export default defineComponent({
     function toHome() {
       router.push({ name: RouteNames.Home });
     }
+    function nextPage() {
+      console.log(result.value.user.repositories.pageInfo.endCursor, '<- endCursor');
+      fetchMore({
+        variables: {
+          after: result.value.user.repositories.pageInfo.endCursor,
+          before: null,
+        },
+        updateQuery: (previousResult, { fetchMoreResult }) => {
+          const newEdges = fetchMoreResult.user.repositories.edges;
+          const { pageInfo } = fetchMoreResult.user.repositories;
+
+          console.log(newEdges, '<-newEdges');
+          console.log(pageInfo, '<-pageInfo');
+
+          console.log(previousResult, '<-previousresult');
+
+          return newEdges.length ? {
+            ...previousResult,
+            user: {
+              ...previousResult.user,
+              repositories: {
+                ...previousResult.user.repositories,
+                edges: [
+                  ...newEdges,
+                ],
+                pageInfo,
+              },
+            },
+          } : previousResult;
+        },
+      });
+    }
+
+    function prevPage() {
+      console.log(result.value.user.repositories.pageInfo.startCursor, '<- startCursor');
+      fetchMore({
+        variables: {
+          before: result.value.user.repositories.pageInfo.startCursor,
+          after: null,
+        },
+        updateQuery: (previousResult, { fetchMoreResult }) => {
+          const newEdges = fetchMoreResult.user.repositories.edges;
+          const { pageInfo } = fetchMoreResult.user.repositories;
+
+          console.log(newEdges, '<-newEdges Before');
+
+          console.log(previousResult, '<-previousresult');
+
+          return newEdges.length ? {
+            ...previousResult,
+            user: {
+              ...previousResult.user,
+              repositories: {
+                ...previousResult.user.repositories,
+                edges: [
+                  ...newEdges,
+                ],
+                pageInfo,
+              },
+            },
+          } : previousResult;
+        },
+      });
+    }
+
     return {
       userDetails,
       loading,
       error,
       result,
       toHome,
+      nextPage,
+      prevPage,
     };
   },
 });

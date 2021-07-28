@@ -21,7 +21,9 @@ export default defineComponent({
   setup() {
     const searchOptions: SearchOptions = reactive({
       query: '',
-      limit: 10,
+      limit: 3,
+      after: null,
+      before: null,
     });
 
     const search = (query: string) => {

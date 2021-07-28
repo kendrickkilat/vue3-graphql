@@ -9,15 +9,20 @@
                 :user="user.node" :search-options="searchOptions"/>
             </li>
         </ul>
+        <div class="flex mx-5 mb-3">
+          <button class="flex-1 mr-1 p-2" @click="prevPage()">Previous</button>
+          <button class="flex-1 ml-1 p-2" @click="nextPage()">Next</button>
+        </div>
     </div>
 </template>
 <script lang ="ts">
-import { defineComponent, PropType, toRefs } from 'vue';
+import { defineComponent, PropType } from 'vue';
 import { useQuery, useResult } from '@vue/apollo-composable';
 import { SEARCH_USERS } from '@/graphql/queries';
 // import useQueries from '@/composables/use-queries';
 import User from '@/components/user.vue';
 import { SearchOptions } from '@/interfaces/search-options';
+// import { SearchResultItemEdge } from '@/generated/graphql';
 
 export default defineComponent({
   name: 'UserList',
@@ -28,18 +33,19 @@ export default defineComponent({
     searchOptions: {
       type: Object as PropType<SearchOptions>,
       required: false,
-      default() {
-        return {
-          query: '',
-          limit: 10,
-        };
-      },
+      default: () => ({
+        query: '',
+        limit: 10,
+        after: null,
+        before: null,
+      }),
     },
   },
-  setup(props: {searchOptions: SearchOptions}) {
-    const { searchOptions } = toRefs(props);
-    // const { SEARCH_USERS } = useQueries();
-    const { result, loading, error } = useQuery(SEARCH_USERS, searchOptions);
+  setup(props) {
+    console.log(props.searchOptions);
+    const {
+      result, loading, error, fetchMore,
+    } = useQuery(SEARCH_USERS, props.searchOptions);
 
     const users = useResult(
       result,
@@ -47,10 +53,72 @@ export default defineComponent({
       (data) => data.search && data.search.edges, // specify on what data to return
     );
 
+    function nextPage() {
+      console.log(result.value.search.pageInfo.endCursor, '<- endCursor');
+      fetchMore({
+        variables: {
+          after: result.value.search.pageInfo.endCursor,
+          before: null,
+        },
+        updateQuery: (previousResult, { fetchMoreResult }) => {
+          const newEdges = fetchMoreResult.search.edges;
+          const { pageInfo } = fetchMoreResult.search;
+
+          console.log(newEdges, '<-newEdges');
+          console.log(pageInfo, '<-pageInfo');
+
+          console.log(previousResult, '<-previousresult');
+
+          return newEdges.length ? {
+            ...previousResult,
+            search: {
+              ...previousResult.search,
+              // Concat edges
+              edges: [
+                ...newEdges,
+              ],
+              // Override with new pageInfo
+              pageInfo,
+            },
+          } : previousResult;
+        },
+      });
+    }
+
+    function prevPage() {
+      console.log(result.value.search.pageInfo.startCursor, '<- startCursor');
+      fetchMore({
+        variables: {
+          before: result.value.search.pageInfo.startCursor,
+          after: null,
+        },
+        updateQuery: (previousResult, { fetchMoreResult }) => {
+          const newEdges = fetchMoreResult.search.edges;
+          const { pageInfo } = fetchMoreResult.search;
+
+          console.log(newEdges, '<-newEdges Before');
+
+          return newEdges.length ? {
+            ...previousResult,
+            search: {
+              ...previousResult.search,
+              // Concat edges
+              edges: [
+                ...newEdges,
+              ],
+              // Override with new pageInfo
+              pageInfo,
+            },
+          } : previousResult;
+        },
+      });
+    }
     return {
       loading,
       error,
       users,
+      nextPage,
+      prevPage,
     };
   },
 });
