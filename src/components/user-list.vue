@@ -36,6 +36,8 @@ export default defineComponent({
       default: () => ({
         query: '',
         limit: 10,
+        start: null,
+        last: null,
         after: null,
         before: null,
       }),

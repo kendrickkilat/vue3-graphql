@@ -28,6 +28,7 @@ import { useQuery, useResult } from '@vue/apollo-composable';
 import router from '@/router';
 import RouteNames from '@/enums/route-names';
 import RepositoryList from '@/components/repository-list.vue';
+import { UserOptions } from '@/interfaces/search-options';
 
 export default defineComponent({
   name: 'UserDetails',
@@ -47,7 +48,7 @@ export default defineComponent({
       login: props.id,
       after: null,
       before: null,
-    });
+    } as UserOptions);
     const {
       result, loading, error, fetchMore,
     } = useQuery(SEARCH_USER, variables.value);

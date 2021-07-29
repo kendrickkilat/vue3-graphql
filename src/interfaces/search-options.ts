@@ -4,3 +4,11 @@ export interface SearchOptions {
     after: string | null,
     before: string | null,
 }
+
+export interface UserOptions {
+    login: string,
+    after: string | null,
+    before: string | null,
+    start: number | null,
+    last: number | null,
+}

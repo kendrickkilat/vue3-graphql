@@ -24,6 +24,8 @@ export default defineComponent({
       limit: 3,
       after: null,
       before: null,
+      start: null,
+      last: null,
     });
 
     const search = (query: string) => {
