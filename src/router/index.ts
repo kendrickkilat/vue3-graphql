@@ -1,5 +1,5 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router';
-import RouteNames from '@/enums/route-names';
+import RouteNames from '@/shared/enums/route-names';
 
 export const routes: Array<RouteRecordRaw> = [
   {

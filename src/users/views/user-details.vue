@@ -1,5 +1,4 @@
 <template>
-    <div>new</div>
     <div v-if="loading">...Loading</div>
     <div v-else-if="error">{{ error.message }}</div>
     <div v-else-if="result" class="flex flex-col m-5">
@@ -12,7 +11,7 @@
             <span>Github Link: </span><a class="text-green-400" target="_blank" :href="userDetails.url">{{userDetails.url ? userDetails.url : 'N/A'}}</a>
         </div>
         <RepositoryList :repositories="userDetails.repositories.edges"/>
-        <div class="flex mx-5 mb-3">
+        <div class="flex mx-2 mb-3">
           <button class="flex-1 mr-1 p-2" @click="prevPage()">Previous</button>
           <button class="flex-1 ml-1 p-2" @click="nextPage()">Next</button>
         </div>
@@ -27,7 +26,7 @@ import { defineComponent, ref } from 'vue';
 import { SEARCH_USER } from '@/graphql/queries';
 import { useQuery, useResult } from '@vue/apollo-composable';
 import router from '@/router';
-import RouteNames from '@/enums/route-names';
+import RouteNames from '@/shared/enums/route-names';
 import RepositoryList from '@/repositories/components/repository-list.vue';
 import { UserOptions } from '@/shared/interfaces/query-options';
 

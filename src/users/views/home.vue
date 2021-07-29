@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <h1>Search <span class="text-green-500">GitHub</span> Users *new*</h1>
+    <h1>Search <span class="text-green-500">GitHub</span> Users</h1>
     <SearchBar @search="search"/>
     <UserList :search-options="searchOptions" />
   </div>

@@ -20,7 +20,7 @@
 <script lang="ts">
 import router from '@/router';
 import { defineComponent, PropType } from 'vue';
-import rn from '@/enums/route-names';
+import rn from '@/shared/enums/route-names';
 import { User } from '@/generated/graphql';
 
 export default defineComponent({
