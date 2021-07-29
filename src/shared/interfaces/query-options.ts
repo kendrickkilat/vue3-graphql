@@ -9,6 +9,6 @@ export interface UserOptions {
     login: string,
     after: string | null,
     before: string | null,
-    start: number | null,
+    first: number | null,
     last: number | null,
 }

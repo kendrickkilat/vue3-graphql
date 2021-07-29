@@ -1,5 +1,5 @@
 <template>
-    <div>old</div>
+    <div>new</div>
     <div v-if="loading">...Loading</div>
     <div v-else-if="error">{{ error.message }}</div>
     <div v-else-if="result" class="flex flex-col m-5">
@@ -28,7 +28,7 @@ import { SEARCH_USER } from '@/graphql/queries';
 import { useQuery, useResult } from '@vue/apollo-composable';
 import router from '@/router';
 import RouteNames from '@/enums/route-names';
-import RepositoryList from '@/components/repository-list.vue';
+import RepositoryList from '@/repositories/components/repository-list.vue';
 import { UserOptions } from '@/shared/interfaces/query-options';
 
 export default defineComponent({

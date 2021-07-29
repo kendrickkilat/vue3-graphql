@@ -1,22 +1,11 @@
 import { createRouter, createWebHashHistory, RouteRecordRaw } from 'vue-router';
 import RouteNames from '@/enums/route-names';
 
-const routes: Array<RouteRecordRaw> = [
-  {
-    path: '/',
-    name: RouteNames.Home,
-    component: () => import('../views/home.vue'),
-  },
-  {
-    path: '/user/:id',
-    props: true,
-    name: RouteNames.UserDetails,
-    component: () => import('../views/user-details.vue'),
-  },
+export const routes: Array<RouteRecordRaw> = [
   {
     path: '/:catchAll(.*)',
     name: RouteNames.Error,
-    component: () => import('../views/404.vue'),
+    component: () => import('@/views/404.vue'),
   },
 ];
 

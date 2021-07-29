@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <h1>Search <span class="text-green-500">GitHub</span> Users</h1>
+    <h1>Search <span class="text-green-500">GitHub</span> Users *new*</h1>
     <SearchBar @search="search"/>
     <UserList :search-options="searchOptions" />
   </div>
@@ -8,8 +8,8 @@
 
 <script lang="ts">
 import { defineComponent, reactive } from 'vue';
-import SearchBar from '@/components/search-bar.vue';
-import UserList from '@/components/user-list.vue';
+import SearchBar from '@/users/components/search-bar.vue';
+import UserList from '@/users/components/user-list.vue';
 import { SearchOptions } from '@/shared/interfaces/query-options';
 
 export default defineComponent({

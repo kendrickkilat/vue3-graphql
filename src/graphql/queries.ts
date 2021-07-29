@@ -55,11 +55,30 @@ const SEARCH_USERS = gql`
 `;
 
 const SEARCH_USER = gql`
-  ${USER_FRAGMENT}
-
-  query SearchUserQuery($login: String!, $after: String, $before: String) {
+  query SearchUserQuery($login: String!, $after: String, $before: String, $first: Int, $last: Int) {
     user(login: $login) {
-      ...user
+      id
+        email
+        login
+        avatarUrl(size: 100)
+        url
+        name
+        repositories(first: $first, last:$last after: $after, before: $before) {
+        totalCount
+        edges {
+          cursor
+          node {
+            id
+            name
+            url
+          }
+        }
+        pageInfo {
+          endCursor
+          startCursor
+          hasNextPage
+        }
+        }
     }
   }
 `;
