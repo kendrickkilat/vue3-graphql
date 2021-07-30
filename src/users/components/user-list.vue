@@ -9,8 +9,8 @@
             </li>
         </ul>
         <div class="flex mx-5 mb-3">
-          <button class="flex-1 mr-1 p-2" @click="prevPage()">Previous</button>
-          <button class="flex-1 ml-1 p-2" @click="nextPage()">Next</button>
+          <button v-if="result.search.pageInfo.hasPreviousPage" class="flex-1 mr-1 p-2" @click="prevPage()">Previous</button>
+          <button v-if="result.search.pageInfo.hasNextPage" class="flex-1 ml-1 p-2" @click="nextPage()">Next</button>
         </div>
     </div>
 </template>
@@ -62,12 +62,6 @@ export default defineComponent({
         updateQuery: (previousResult, { fetchMoreResult }) => {
           const newEdges = fetchMoreResult.search.edges;
           const { pageInfo } = fetchMoreResult.search;
-
-          console.log(newEdges, '<-newEdges');
-          console.log(pageInfo, '<-pageInfo');
-
-          console.log(previousResult, '<-previousresult');
-
           return newEdges.length ? {
             ...previousResult,
             search: {
@@ -95,8 +89,6 @@ export default defineComponent({
           const newEdges = fetchMoreResult.search.edges;
           const { pageInfo } = fetchMoreResult.search;
 
-          console.log(newEdges, '<-newEdges Before');
-
           return newEdges.length ? {
             ...previousResult,
             search: {
@@ -116,6 +108,7 @@ export default defineComponent({
       loading,
       error,
       users,
+      result,
       nextPage,
       prevPage,
     };

@@ -49,6 +49,7 @@ const SEARCH_USERS = gql`
         endCursor
         startCursor
         hasNextPage
+        hasPreviousPage
       }
     }
   }
@@ -77,23 +78,9 @@ const SEARCH_USER = gql`
           endCursor
           startCursor
           hasNextPage
+          hasPreviousPage
         }
         }
-    }
-  }
-`;
-
-const GET_NEXT_USERS = gql`
-  ${USER_FRAGMENT}
-  query getNextUsers($cursor: String!) {
-    search(query: $query, type: USER, first: $limit, after: $cursor ) {
-      userCount
-      edges {
-        cursor
-        node {
-          ...user
-        }
-      }
     }
   }
 `;
@@ -101,5 +88,4 @@ const GET_NEXT_USERS = gql`
 export {
   SEARCH_USERS,
   SEARCH_USER,
-  GET_NEXT_USERS,
 };

@@ -5,7 +5,7 @@ export const routes: Array<RouteRecordRaw> = [
   {
     path: '/:catchAll(.*)',
     name: RouteNames.Error,
-    component: () => import('@/views/404.vue'),
+    component: () => import('@/shared/views/404.vue'),
   },
 ];
 

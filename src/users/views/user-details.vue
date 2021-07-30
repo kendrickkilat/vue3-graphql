@@ -2,7 +2,6 @@
     <div v-if="loading">...Loading</div>
     <div v-else-if="error">{{ error.message }}</div>
     <div v-else-if="result" class="flex flex-col m-5">
-        <div @click="toHome" class="text-green-300 underline cursor-pointer font-semibold text-xl place-self-start">Home</div>
         <h2 class="text-green-400 text-5xl font-semibold place-self-start">{{userDetails.login.toUpperCase()}}</h2>
         <div class="grid grid-cols-2 justify-items-start bg-white shadow-md p-5 my-5">
             <span>Username: </span><span class="text-green-400 font-semibold">{{ userDetails.login }}</span>
@@ -12,8 +11,8 @@
         </div>
         <RepositoryList :repositories="userDetails.repositories.edges"/>
         <div class="flex mx-2 mb-3">
-          <button class="flex-1 mr-1 p-2" @click="prevPage()">Previous</button>
-          <button class="flex-1 ml-1 p-2" @click="nextPage()">Next</button>
+          <button v-if="userDetails.repositories.pageInfo.hasPreviousPage" class="flex-1 mr-1 p-2" @click="prevPage()">Previous</button>
+          <button v-if="userDetails.repositories.pageInfo.hasNextPage" class="flex-1 ml-1 p-2" @click="nextPage()">Next</button>
         </div>
     </div>
     <div v-else-if="!result">
@@ -25,9 +24,7 @@
 import { defineComponent, ref } from 'vue';
 import { SEARCH_USER } from '@/graphql/queries';
 import { useQuery, useResult } from '@vue/apollo-composable';
-import router from '@/router';
-import RouteNames from '@/shared/enums/route-names';
-import RepositoryList from '@/repositories/components/repository-list.vue';
+import RepositoryList from '@/users/components/repository-list.vue';
 import { UserOptions } from '@/shared/interfaces/query-options';
 
 export default defineComponent({
@@ -43,7 +40,6 @@ export default defineComponent({
   },
   setup(props) {
     console.log(props.id);
-    // const { SEARCH_USER } = useQueries();
     const variables = ref({
       login: props.id,
       after: null,
@@ -59,9 +55,6 @@ export default defineComponent({
       [],
       (data) => data.user,
     );
-    function toHome() {
-      router.push({ name: RouteNames.Home });
-    }
     function nextPage() {
       console.log(result.value.user.repositories.pageInfo.endCursor, '<- endCursor');
       fetchMore({
@@ -136,7 +129,6 @@ export default defineComponent({
       loading,
       error,
       result,
-      toHome,
       nextPage,
       prevPage,
     };
